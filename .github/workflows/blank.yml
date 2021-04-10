@@ -3,7 +3,7 @@ name: New Script1
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
