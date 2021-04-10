@@ -29,6 +29,6 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          npm --v,
-          node --v,
-          echo Fireeeee!!.
+          npm --v
+          node --v
+          echo Fireeeee!!
