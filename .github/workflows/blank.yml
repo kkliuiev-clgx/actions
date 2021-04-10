@@ -24,7 +24,7 @@ jobs:
       - name: Publish
         uses: appleboy/scp-action@master
         with:
-          host: kliuiev.tk
+          host: 185.205.47.193 
           username: ubuntu
           password: rigpa53
           port: 22
