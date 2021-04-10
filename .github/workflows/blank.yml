@@ -20,7 +20,7 @@ jobs:
       - run: npm i
       - run: npm install -g newman
       - run: npm install -g newman-reporter-htmlextra
-      - run: newman run ./api-test.json -x -r htmlextra --reporter-htmlextra-export ./reports/report.html
+      - run: newman run ./api-test.json -x -r htmlextra --reporter-htmlextra-export ./reports/index.html
 
       
       - name: Publish
@@ -30,5 +30,14 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          source: "./reports/report.html"
-          target: "test"
+          source: "./reports/index.html"
+          target: "report"
+      
+      - name: Copy arttifact and Restart Server
+        uses: appleboy/ssh-action@master
+        with:
+         host: 35.233.168.216
+         username: ubuntu
+         key: ${{ secrets.SSH_KEY }}
+         port: 22
+         script: ./refresh.sh
