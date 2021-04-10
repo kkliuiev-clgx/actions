@@ -26,7 +26,7 @@ jobs:
         with:
           host: kliuiev.tk
           username: ubuntu
-          password: rigpa5381
+          password: rigpa53
           port: 22
-          source: "README.MD"
+          source: "./api-test.json"
           target: "test"
