@@ -37,5 +37,5 @@ jobs:
           npm i newman
           echo Getting list of files...
           ls -la
-          /node_modules/newman/bin/newman.js run api-test.json
+          ./node_modules/newman/bin/newman.js run api-test.json
           
