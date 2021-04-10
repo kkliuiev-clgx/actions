@@ -1,0 +1,651 @@
+{
+	"info": {
+		"_postman_id": "c6e5cd13-ef6c-46f5-a21d-403acaa25518",
+		"name": "API Auto 10-11",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login with valid credentials",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Succeed to login with valid credentials\", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", responseData.accessToken);",
+							"pm.response.to.have.status(200)&&pm.expect(responseData.lastName).to.not.eql(null)&&pm.expect(responseData.firstName).to.not.eql(null)&&pm.expect(responseData.email).to.include(\"support\")&&pm.expect(responseData.id).to.eql(1);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"admin\",\n\t\"password\":\"Admin2021\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/login/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with invalid credentials (invalid username)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Failed to login with valid credentials\", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"pm.response.to.have.status(400)&&pm.expect(responseData.message).to.eql(\"User not found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"a4324324234\",\n\t\"password\":\"admin\"\n}"
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/login/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with invalid credentials (invalid password)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Failed to login with valid credentials\", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"pm.response.to.have.status(400)&&pm.expect(responseData.message).to.eql(\"The user name or password is incorrect.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"admin\",\n\t\"password\":\"admin1\"\n}"
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/login/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list of nationalities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Succeed to get nationalities\", function () {",
+							"var nationalitiesList = JSON.parse(responseBody);",
+							"pm.response.to.have.status(200)&&pm.expect(nationalitiesList.items.length).to.eql(nationalitiesList.count);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities?limit=1000000",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "1000000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new nationality",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Succeed to add new nationality\", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"newNationalityId\", responseData.id);",
+							"pm.response.to.have.status(200)&&pm.expect(responseData.id).to.not.eql(null)});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var date = new Date()",
+							"var timestamp = date.getTime()",
+							"var codeRandom = Math.round(Math.random(100)*1000)",
+							"postman.setEnvironmentVariable(\"newNationality\", \"testNation\"+ timestamp);",
+							"postman.setEnvironmentVariable(\"code\", \"kkk\" + codeRandom);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"{{code}}\",\n    \"name\": \"{{newNationality}}\"\n}"
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new nationality with the name that already exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Failed to add new nationality with not unique name and received correct response\", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"    pm.response.to.have.status(500) && pm.expect(responseData.errorCode).to.eql(\"unique_key\") && pm.expect(responseData.message).to.contain(pm.environment.get(\"newNationality\"));",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"{{code}}\",\n    \"name\": \"{{newNationality}}\"\n}"
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Found newly added nationality in nationalities list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Succeed to find newly added nationality in list \", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"pm.response.to.have.status(200)&&pm.expect(responseData.items.length).to.eql(responseData.count)&&pm.expect(responseData.items.length).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities?name={{newNationality}}",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{newNationality}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update newly added nationality",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random = Math.round(Math.random() * 10000);",
+							"var codeRandom = Math.round(Math.random(100)*1000)",
+							"postman.setEnvironmentVariable(\"changedNationality\", \"testNation\"+random);",
+							"postman.setEnvironmentVariable(\"code\", \"kkk\" + codeRandom);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Succeed to update new nationality\", function () {",
+							"pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"code\":\"{{code}}\",\n    \"id\": \"{{newNationalityId}}\",\n    \"name\": \"{{changedNationality}}\"\n}"
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities/{{newNationalityId}}/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities",
+						"{{newNationalityId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Found updated nationality in nationalities list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Succeed to find updated nationality in list \", function () {",
+							"var responseData = JSON.parse(responseBody);",
+							"pm.response.to.have.status(200)",
+							"pm.expect(responseData.name).to.eql(pm.variables.get(\"changedNationality\"))&&pm.expect(responseData.id.toString()).to.eql(pm.variables.get(\"newNationalityId\"))",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities/{{newNationalityId}}/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities",
+						"{{newNationalityId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete newly added nationality",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deleted newly added nationality\", function () {",
+							"pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities/{{newNationalityId}}/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities",
+						"{{newNationalityId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Did not find deleted nationality in nationalities list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Failed to find just deleted nationality \", function () {",
+							"pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://test.crewingcrm.com/api/nationalities/{{newNationalityId}}/",
+					"protocol": "https",
+					"host": [
+						"test",
+						"crewingcrm",
+						"com"
+					],
+					"path": [
+						"api",
+						"nationalities",
+						"{{newNationalityId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
