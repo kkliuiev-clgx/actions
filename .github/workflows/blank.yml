@@ -22,11 +22,11 @@ jobs:
 
       
       - name: Publish
-        uses: nogsantos/scp-deploy@master
+        uses: appleboy/scp-action@master
         with:
-          src: ./*
-          host: ${{ secrets.SSH_HOST }}
-          remote: ${{ secrets.SSH_DIR }}
+          host: kliuiev.tk
+          username: ubuntu
+          password: rigpa5381
           port: 22
-          user: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          source: "README.MD"
+          target: "test"
