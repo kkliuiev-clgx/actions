@@ -20,7 +20,7 @@ jobs:
       - run: npm i
       - run: npm install -g newman
       - run: npm install -g newman-reporter-htmlextra
-      - run: newman run ./api-test.json -r htmlextra --reporter-htmlextra-export ./reports/report.html
+      - run: newman run ./api-test.json -x -r htmlextra --reporter-htmlextra-export ./reports/report.html
 
       
       - name: Publish
