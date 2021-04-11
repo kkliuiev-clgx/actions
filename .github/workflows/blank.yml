@@ -2,7 +2,7 @@ name: Test, Create Report and Publish result
 
 on:
   schedule:
-     - cron:  '*/1 * * * *'
+     - cron:  '* * * * *'
 
 jobs:
   build:
